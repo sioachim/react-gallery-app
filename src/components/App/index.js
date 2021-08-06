@@ -10,7 +10,12 @@ export default class App extends Component {
             <div className="App">
                 <div className="container">
                     <Header/>
-                    <Nav/>
+                    <Nav
+                        items={[
+                            'Cats',
+                            'Dogs',
+                            'Computers'
+                        ]}/>
                     <Gallery 
                         items={[
                             'https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg',
