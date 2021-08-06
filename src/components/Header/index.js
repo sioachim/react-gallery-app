@@ -5,7 +5,7 @@ export default class Header extends Component {
     render() {
         return (
             <div className="header">
-                <p className="logo"></p>
+                <h2>React Gallery App</h2>
             </div>
         );
     }
