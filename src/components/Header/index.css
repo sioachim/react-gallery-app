@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    -ms-align-items: flex-start;
+    align-items: flex-start;
+}
+
+.header .logo {
+    width: 100%;
+    height: 100px;
+    background-image: url('logo.svg')
+}
