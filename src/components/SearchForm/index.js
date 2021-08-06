@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import config from '../../config';
 import './index.css';
 
 export default class SearchForm extends Component {
@@ -15,14 +16,13 @@ export default class SearchForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        alert('A value was submitted: ' + this.state.value);
 
-        fetch('https://your-node-server-here.com/api/endpoint', {
-            method: 'POST',
-            // We convert the React state to JSON and send it as the POST body
-            body: JSON.stringify(this.state)
+        fetch('https://api.pexels.com/v1/search?query=' + this.state.value + '&per_page=10', {
+            method: 'GET',
+            headers: new Headers({
+                'Authorization': config.pexelsApiKey
+            })
         }).then(function(response) {
-            console.log(response)
             return response.json();
         });
     }
