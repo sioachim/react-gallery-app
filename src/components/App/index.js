@@ -2,28 +2,104 @@ import { Component } from 'react';
 import Header from '../Header';
 import SearchForm from '../SearchForm';
 import Nav from '../Nav';
+import Pagination from '../Pagination';
 import Gallery from '../Gallery';
+import Pexels from '../../services/Pexels';
 import './index.css';
 
 export default class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {value: '', results: [], currentPage: 1, totalResults: 0};
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.onPageChange = this.onPageChange.bind(this);
+    }
+
+    /**
+     * Sets the state value for "value" when user inputs some text in the search input field
+     * and resets the current page to 1
+     * @param {Object} event
+     */
+    handleChange(event) {
+        this.setState({value: event.target.value, currentPage: 1});
+    }
+
+    /**
+     * Stops the default action of the submit event and makes an API call that gets
+     * the results for the searched value stored in state.value
+     * @param {Object} event 
+     */
+    handleSubmit(event) {
+        event.preventDefault();
+        let context = this;
+
+        Pexels.searchImages(this.state.value, this.state.currentPage)
+        .then(function (data) {
+            let total = data.total_results && data.total_results > 1000
+                ? data.total_results / 100
+                : data.total_results;
+            total = total > 100 ? total / 10 : total;
+            context.setState({results: data.photos, totalResults: total});
+        });
+    }
+
+    /**
+     * Stops the default action of the click event and chains the actions
+     * taken by handleChange and handleSubmit
+     * @param {Object} event 
+     */
+    async handleClick(event) {
+        event.preventDefault();
+        // init the value of the event with the proper value to be used by handleChange
+        event.target.value = event.target.textContent;
+
+        await this.handleChange(event);
+        await this.handleSubmit(event);
+    }
+
+    /**
+     * Retrieves a new page of results from Pexels server
+     * @param {Object} event 
+     * @param {Number} page 
+     */
+    async onPageChange(event, page) {
+        await this.setState({currentPage: page});
+        await this.handleSubmit(event);
+    }
+
     render() {
         return (
             <div className="app">
                 <Header />
-                <SearchForm />
+                <SearchForm
+                    value={this.state.value}
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                />
                 <Nav
                     items={[
                         'Cats',
                         'Dogs',
                         'Computers'
-                    ]}/>
+                    ]}
+                    handleClick={this.handleClick}
+                />
+
+                <div className="d-flex flex-row py-4 align-items-center">
+                    <Pagination
+                        currentPage={this.state.currentPage}
+                        total={this.state.totalResults}
+                        onPageChange={this.onPageChange}
+                    />
+                </div>
+
                 <Gallery
-                    items={[
-                        'https://farm5.staticflickr.com/4334/37032996241_4c16a9b530.jpg',
-                        'https://farm5.staticflickr.com/4342/36338751244_316b6ee54b.jpg',
-                        'https://farm5.staticflickr.com/4343/37175099045_0d3a249629.jpg',
-                        'https://farm5.staticflickr.com/4425/36337012384_ba3365621e.jpg'
-                ]}/>
+                    items={this.state.results}
+                />
             </div>
         );
     }

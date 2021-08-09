@@ -13,6 +13,7 @@ export default class Nav extends Component {
                                 <NavItem
                                     key={'nav-item-' + _index}
                                     name={ _item }
+                                    handleClick={this.props.handleClick}
                                 />
                             )
                         )

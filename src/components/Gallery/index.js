@@ -4,18 +4,18 @@ import './index.css';
 
 export default class Gallery extends Component {
     render() {
-        const hasResults = this.props.items.length > 0;
+        const hasItems = this.props.items && this.props.items.length > 0;
         return (
             <div className="photo-container">
                 <h2>Results</h2>
                 <ul>
                     {
-                        hasResults
+                        hasItems
                         ? this.props.items.map(
                             ( _item, _index ) => (
                                 <GalleryItem
                                     key={'gallery-item-' + _index}
-                                    src={ _item }
+                                    src={_item.src.medium}
                                 />
                             )
                         )
