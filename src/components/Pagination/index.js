@@ -70,7 +70,7 @@ class Pagination extends Component {
                 ? <div>
                         <button
                             onClick={this.goToPreviousPage}
-                            className={`prev ${firstPage ? 'disabled' : ''}`}
+                            className={'prev' + (firstPage ? ' disabled' : '')}
                         >
                             prev
                         </button>
@@ -80,7 +80,7 @@ class Pagination extends Component {
                                 <button
                                     key={index}
                                     onClick={this.changePage}
-                                    className={`paginationItem ${this.props.currentPage === item ? 'active' : ''}`}
+                                    className={'paginationItem' + (this.props.currentPage === item ? ' active' : '')}
                                 >
                                     <span>{item}</span>
                                 </button>
@@ -89,7 +89,7 @@ class Pagination extends Component {
 
                         <button
                             onClick={this.goToNextPage}
-                            className={`next ${lastPage ? 'disabled' : ''}`}
+                            className={'next' + (lastPage ? ' disabled' : '')}
                         >
                             next
                         </button>
