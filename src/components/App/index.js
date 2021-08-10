@@ -11,7 +11,7 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {value: '', results: [], currentPage: 1, totalResults: 0};
+        this.state = {value: '', results: [], currentPage: 1, totalResults: 0, loading: false};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,14 +36,19 @@ export default class App extends Component {
     handleSubmit(event) {
         event.preventDefault();
         let context = this;
+        this.setState({ loading: true });
 
         Pexels.searchImages(this.state.value, this.state.currentPage)
         .then(function (data) {
-            let total = data.total_results && data.total_results > 1000
-                ? data.total_results / 100
-                : data.total_results;
-            total = total > 100 ? total / 10 : total;
-            context.setState({results: data.photos, totalResults: total});
+            let total = 0;
+            if (data.total_results > 1000) {
+                total = data.total_results / 100;
+            } else if (data.total_results > 100) {
+                total = data.total_results / 10;
+            }
+            total = Math.floor(total);
+            data.photos = data.photos.slice(0, total);
+            context.setState({results: data.photos, totalResults: total, loading: false});
         });
     }
 
@@ -99,6 +104,8 @@ export default class App extends Component {
 
                 <Gallery
                     items={this.state.results}
+                    total={this.state.totalResults}
+                    loading={this.state.loading}
                 />
             </div>
         );

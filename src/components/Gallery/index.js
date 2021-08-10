@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GalleryItem from './GalleryItem';
+import LoadingSpinner from '../LoadingSpinner';
 import './index.css';
 
 export default class Gallery extends Component {
@@ -7,10 +8,15 @@ export default class Gallery extends Component {
         const hasItems = this.props.items && this.props.items.length > 0;
         return (
             <div className="photo-container">
-                <h2>Results</h2>
+                <h2>{this.props.total + ' results'}</h2>
+                { 
+                    this.props.loading ? <LoadingSpinner /> : ''
+                }
                 <ul>
                     {
-                        hasItems
+                        this.props.loading
+                        ? '' 
+                        : hasItems
                         ? this.props.items.map(
                             ( _item, _index ) => (
                                 <GalleryItem
