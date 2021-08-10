@@ -60,8 +60,8 @@ class Pagination extends Component {
 
     render() {
         const hasItems = this.props.total > 0;
-        const lastPage = this.props.currentPage === Math.floor(this.props.total/config.perPage);
         const firstPage = this.props.currentPage === 1;
+        const lastPage = this.props.currentPage === Math.floor(this.props.total/config.perPage) || this.props.total < config.perPage;
 
         return (
             <div className="pagination">

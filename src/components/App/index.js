@@ -6,6 +6,8 @@ import Pagination from '../Pagination';
 import Gallery from '../Gallery';
 import Pexels from '../../services/Pexels';
 import './index.css';
+import config from '../../config';
+
 
 export default class App extends Component {
     constructor(props) {
@@ -40,6 +42,7 @@ export default class App extends Component {
 
         Pexels.searchImages(this.state.value, this.state.currentPage)
         .then(function (data) {
+            // reduce the total results from thousands or hundreds to tens of results
             let total = 0;
             if (data.total_results > 1000) {
                 total = data.total_results / 100;
@@ -47,7 +50,9 @@ export default class App extends Component {
                 total = data.total_results / 10;
             }
             total = Math.floor(total);
-            data.photos = data.photos.slice(0, total);
+            // for last page subtract from total the number of results from all previous pages
+            let max = total - context.state.currentPage * config.perPage;
+            data.photos = data.photos.slice(0, max);
             context.setState({results: data.photos, totalResults: total, loading: false});
         });
     }
