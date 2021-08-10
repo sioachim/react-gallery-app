@@ -1,7 +1,7 @@
 .search-form {
     max-width: 460px;
     display: flex;
-    margin: 0 auto 32px;
+    margin: 0 auto 15px;
 }
 
 .search-form button {

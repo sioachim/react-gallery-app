@@ -99,13 +99,11 @@ export default class App extends Component {
                     handleClick={this.handleClick}
                 />
 
-                <div className="d-flex flex-row py-4 align-items-center">
-                    <Pagination
-                        currentPage={this.state.currentPage}
-                        total={this.state.totalResults}
-                        onPageChange={this.onPageChange}
-                    />
-                </div>
+                <Pagination
+                    currentPage={this.state.currentPage}
+                    total={this.state.totalResults}
+                    onPageChange={this.onPageChange}
+                />
 
                 <Gallery
                     items={this.state.results}
