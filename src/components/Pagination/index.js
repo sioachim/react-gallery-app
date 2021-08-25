@@ -15,12 +15,12 @@ class Pagination extends Component {
     }
 
     /**
-     * Calls the onPageChange event defined in App top component
+     * Calls the handlePageChange event defined in App top component
      * @param {Object} event 
      * @param {Number} page 
      */
     setCurrentPage(event, page)  {
-        this.props.onPageChange(event, page);
+        this.props.handlePageChange(event, page);
     }
 
     /**
@@ -62,6 +62,8 @@ class Pagination extends Component {
         const hasItems = this.props.total > 0;
         const firstPage = this.props.currentPage === 1;
         const lastPage = this.props.currentPage === Math.floor(this.props.total/config.perPage) || this.props.total < config.perPage;
+        const firstPageDisabled = firstPage ? ' disabled' : '';
+        const lastPageDisabled = lastPage ? ' disabled' : '';
 
         return (
             <div className="pagination">
@@ -70,7 +72,7 @@ class Pagination extends Component {
                 ? <div>
                         <button
                             onClick={this.goToPreviousPage}
-                            className={'prev' + (firstPage ? ' disabled' : '')}
+                            className={'prev' + firstPageDisabled}
                         >
                             prev
                         </button>
@@ -89,7 +91,7 @@ class Pagination extends Component {
 
                         <button
                             onClick={this.goToNextPage}
-                            className={'next' + (lastPage ? ' disabled' : '')}
+                            className={'next' + lastPageDisabled}
                         >
                             next
                         </button>

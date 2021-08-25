@@ -9,13 +9,13 @@ export default class Gallery extends Component {
         return (
             <div className="photo-container">
                 <h2>{this.props.total + ' results'}</h2>
-                { 
+                {
                     this.props.loading ? <LoadingSpinner /> : ''
                 }
                 <ul>
                     {
                         this.props.loading
-                        ? '' 
+                        ? ''
                         : hasItems
                         ? this.props.items.map(
                             ( _item, _index ) => (

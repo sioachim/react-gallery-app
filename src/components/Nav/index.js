@@ -1,25 +1,48 @@
 import React, { Component } from 'react';
-import NavItem from './NavItem';
+import Search from '../Search';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from 'react-router-dom';
 import './index.css';
 
 export default class Nav extends Component {
     render() {
         return (
-            <nav className="main-nav">
-                <ul>
-                    {
-                        this.props.items.map(
-                            ( _item, _index ) => (
-                                <NavItem
-                                    key={'nav-item-' + _index}
-                                    name={ _item }
-                                    handleClick={this.props.handleClick}
-                                />
-                            )
-                        )
-                    }
-                </ul>
-            </nav>
+            <div>
+                <Router>
+                    <nav className="main-nav">
+                        <ul>
+                            <li>
+                                <Link to={'/search/cats'}>Cats</Link>
+                            </li>
+                            <li>
+                                <Link to={'/search/dogs'}>Dogs</Link>
+                            </li>
+                            <li>
+                                <Link to={'/search/computers'}>Computers</Link>
+                            </li>
+                        </ul>
+
+                        <Switch>
+                            <Route exact path="/">
+                                <Search value="" />
+                            </Route>
+                            <Route exact path="/search/cats">
+                                <Search value="cats" />
+                            </Route>
+                            <Route exact path="/search/dogs">
+                                <Search value="dogs" />
+                            </Route>
+                            <Route exact path="/search/computers">
+                                <Search value="computers" />
+                            </Route>
+                        </Switch>
+                    </nav>
+                </Router>
+            </div>
         );
     }
 }
