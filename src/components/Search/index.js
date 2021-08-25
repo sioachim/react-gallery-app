@@ -76,7 +76,8 @@ export default class Search extends Component {
     /**
      * This hook will fetch images when first rendering the component, e.g. when first clicking cats
      */
-    componentDidMount() {
+    async componentDidMount() {
+        await this.setState({value: this.props.value, currentPage: 1});
         this.searchImages();
     }
 
