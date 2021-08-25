@@ -54,9 +54,8 @@ class Pagination extends Component {
      * @returns {Array}
      */
     getPages() {
-        let start = Math.floor((this.props.currentPage - 1) / config.perPage) * config.perPage;
-        let pages = Math.floor(this.props.total/config.perPage);
-        return new Array(pages).fill().map((_, idx) => start + idx + 1);
+        let pages = Math.ceil(this.props.total/config.perPage);
+        return new Array(pages).fill().map((_, idx) => idx + 1);
     }
 
     render() {

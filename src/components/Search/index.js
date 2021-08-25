@@ -27,9 +27,8 @@ export default class Search extends Component {
     async handleSubmit(event) {
         let form = event.target;
         let input = form[0];
-        await this.setState({value: input.value, currentPage: 1});
         event.preventDefault();
-        this.searchImages();
+        window.location.href = form.attributes.action.value + '/' + input.value;
     }
 
     /**
@@ -67,7 +66,7 @@ export default class Search extends Component {
             }
             total = Math.floor(total);
             // for last page subtract from total the number of results from all previous pages
-            let max = total - context.state.currentPage * config.perPage;
+            let max = total - (context.state.currentPage - 1) * config.perPage;
             data.photos = data.photos.slice(0, max);
             context.setState({results: data.photos, totalResults: total, loading: false});
         });
