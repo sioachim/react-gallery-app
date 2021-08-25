@@ -4,9 +4,20 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    useParams
 } from 'react-router-dom';
 import './index.css';
+
+function Switcher() {
+    let { id } = useParams();
+
+    return (
+        <Route exact path={'/search/' + id}>
+            <Search value={id} />
+        </Route>
+    );
+}
 
 export default class Nav extends Component {
     render() {
@@ -16,13 +27,13 @@ export default class Nav extends Component {
                     <nav className="main-nav">
                         <ul>
                             <li>
-                                <Link to={'/search/cats'}>Cats</Link>
+                                <Link to="/search/cats">Cats</Link>
                             </li>
                             <li>
-                                <Link to={'/search/dogs'}>Dogs</Link>
+                                <Link to="/search/dogs">Dogs</Link>
                             </li>
                             <li>
-                                <Link to={'/search/computers'}>Computers</Link>
+                                <Link to="/search/computers">Computers</Link>
                             </li>
                         </ul>
 
@@ -30,15 +41,7 @@ export default class Nav extends Component {
                             <Route exact path="/">
                                 <Search value="" />
                             </Route>
-                            <Route exact path="/search/cats">
-                                <Search value="cats" />
-                            </Route>
-                            <Route exact path="/search/dogs">
-                                <Search value="dogs" />
-                            </Route>
-                            <Route exact path="/search/computers">
-                                <Search value="computers" />
-                            </Route>
+                            <Route path="/search/:id" children={<Switcher />} />
                         </Switch>
                     </nav>
                 </Router>
