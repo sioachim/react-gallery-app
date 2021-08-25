@@ -17,12 +17,12 @@
 }
 
 @media only screen and (min-width: 768px)  {
-    .main-nav ul {
+    nav.main-nav ul:first-child {
         display: flex;
         justify-content: center;
     }
 
-    .main-nav li {
+    nav.main-nav ul:first-child li {
         margin: 10px;
         width: 100px;
     }

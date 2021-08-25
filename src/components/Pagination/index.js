@@ -1,5 +1,6 @@
 
 import React, { Component } from 'react';
+import Button from '../Pagination/Button';
 import config from '../../config';
 import './index.css';
 
@@ -52,7 +53,7 @@ class Pagination extends Component {
      * Builds an array of pages based on total results and items per page
      * @returns {Array}
      */
-    getPaginationGroup() {
+    getPages() {
         let start = Math.floor((this.props.currentPage - 1) / config.perPage) * config.perPage;
         let pages = Math.floor(this.props.total/config.perPage);
         return new Array(pages).fill().map((_, idx) => start + idx + 1);
@@ -62,43 +63,49 @@ class Pagination extends Component {
         const hasItems = this.props.total > 0;
         const firstPage = this.props.currentPage === 1;
         const lastPage = this.props.currentPage === Math.floor(this.props.total/config.perPage) || this.props.total < config.perPage;
-        const firstPageDisabled = firstPage ? ' disabled' : '';
-        const lastPageDisabled = lastPage ? ' disabled' : '';
 
         return (
-            <div className="pagination">
-            {
-                hasItems
-                ? <div>
-                        <button
-                            onClick={this.goToPreviousPage}
-                            className={'prev' + firstPageDisabled}
-                        >
-                            prev
-                        </button>
+            <ul className="pagination">
+                <li>
+                    <Button
+                        key="prev"
+                        value="prev"
+                        onClick={this.goToPreviousPage}
+                        className="prev"
+                        active={false}
+                        disabled={firstPage}
+                        display={hasItems}
+                    />
+                </li>
 
-                        {
-                            this.getPaginationGroup().map((item, index) => (
-                                <button
-                                    key={index}
-                                    onClick={this.changePage}
-                                    className={'paginationItem' + (this.props.currentPage === item ? ' active' : '')}
-                                >
-                                    <span>{item}</span>
-                                </button>
-                            ))
-                        }
+                {
+                    this.getPages().map((item, index) => (
+                        <li key={item}>
+                            <Button
+                                key={item}
+                                value={item}
+                                onClick={this.changePage}
+                                disabled={false}
+                                active={this.props.currentPage === item}
+                                className="paginationItem"
+                                display={hasItems}
+                            />
+                        </li>
+                    ))
+                }
 
-                        <button
-                            onClick={this.goToNextPage}
-                            className={'next' + lastPageDisabled}
-                        >
-                            next
-                        </button>
-                    </div>
-                : ''
-            }
-            </div>
+                <li>
+                    <Button
+                        key="next"
+                        value="next"
+                        onClick={this.goToNextPage}
+                        className="next"
+                        disabled={lastPage}
+                        active={false}
+                        display={hasItems}
+                    />
+                </li>
+            </ul>
         );
     }
 }
